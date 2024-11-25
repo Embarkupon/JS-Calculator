@@ -6,7 +6,7 @@ let keypad = document.querySelectorAll(".key");
 keypad.forEach((btn) => {
     btn.addEventListener("click", () => {
         numberStream.push(btn.innerHTML);
-        let value_x = Number(numberStream.join(""));
+        let value_x = numberStream.join("");
         displayText.textContent = value_x;
         console.log(value_x + typeof value_x);
     });
