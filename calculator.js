@@ -1,7 +1,8 @@
 let operands = {
     operand_x: 0,
     operand_y: undefined,
-    operator: undefined
+    operator: undefined,
+    evaluation: undefined
 };
 let displayText = document.querySelector(".display-text");
 displayText.textContent = operands.operand_x;
@@ -16,16 +17,17 @@ keypad.forEach((btn) => {
             displayText.textContent = numberStream.join("");
         } else if (btn.classList.contains("operation")) {
             if (!pressed) {
-                pressed = true;
+                pressed = true;                    displayText
                 if (numberStream.length !== 0) {
                     operands.operand_x = +numberStream.join("");
                 }
             } 
             else if (pressed) {
                 if (numberStream.length !== 0) {
-                    pressed = false;
                     operands.operand_y = +numberStream.join("");
-                    operation(operands, displayText);
+                    operands.evaluation = operation(operands);
+                    displayText.textContent = operands.evaluation;
+                    operands.operand_x = operands.evaluation;
                 }
             }
             numberStream = [];
@@ -48,32 +50,43 @@ keypad.forEach((btn) => {
 }) 
 
 
-function operation(obj, text) {
+function operation(obj) {
     //obj.operand_x = 3;
     //obj.operand_y = 5;
     //obj.operator = "add";
+    let evaluation = 0;
     console.log(obj);
     switch (obj.operator) {
         case "add":
-            add(obj.operand_x, obj.operand_y, text);
+            evaluation = add(obj.operand_x, obj.operand_y);
+            break;
+        case "subtract":
+            evaluation = subtract(obj.operand_x, obj.operand_y);
+            break;
+        case "multiply":
+            evaluation = multiply(obj.operand_x, obj.operand_y);
+            break;
+        case "divide":
+            evaluation = divide(obj.operand_x, obj.operand_y);
             break;
         default:
             console.log("No operation was performed.");
         }
+    return evaluation;
 }
 
-function add(x,y,display) {
-    display.textContent = x + y;
+function add(x,y) {
+    return x + y;
 }
 
-function subtract(x,y,display) {
-    
+function subtract(x,y) {
+    return x - y;
 }
 
-function multiply(x,y,display) {
-    
+function multiply(x,y) {
+    return x * y;
 }
 
-function divide(x,y,display) {
-    
+function divide(x,y) {
+    return x / y;
 }
