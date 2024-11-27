@@ -23,18 +23,28 @@ body {
 .display {
     flex: auto;
     display: flex;
-    justify-content: end;
+    text-align: end;
+    flex-direction: column;
     color: black;
     background-color: gray;
     border-radius: 8px;
-    font-size: 50px;
     width: 328px;
     height: 100px;
 }
 
 .display-text {
-    flex: 0 0 auto;
+    flex: 1;
     margin-top: auto;
+    font-size: 50px;
+}
+
+.display-operator {
+    flex: auto;
+    font-size: 34px;
+}
+
+.display-operator,
+.display-text {
     padding-right: 8px;
 }
 

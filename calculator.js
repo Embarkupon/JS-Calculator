@@ -1,38 +1,55 @@
 let operands = {
     operand_x: 0,
-    operand_y: undefined,
-    operator: undefined,
-    evaluation: undefined
 };
 let displayText = document.querySelector(".display-text");
+let displayOperator = document.querySelector(".display-operator");
 displayText.textContent = operands.operand_x;
 let numberStream = [];
 let pressed = false;
 
 let keypad = document.querySelectorAll(".key");
+//TODO: Evaluate for floats. numberstream should be limited to
+//A SINGLE decimal point after the decimal button is pressed
+//handle overflow. Implement proportion, negate, clear, delete.
 keypad.forEach((btn) => {
     btn.addEventListener("click", () => {
         if (btn.classList.contains("number")) {
             numberStream.push(btn.innerHTML);
             displayText.textContent = numberStream.join("");
-        } else if (btn.classList.contains("operation")) {
-            if (!pressed) {
-                pressed = true;                    displayText
+            if(pressed == true) {
+                operands.operand_y = +numberStream.join("");
+            }
+        } 
+        
+        else if (btn.classList.contains("operation")) {
+            console.log(pressed);
+            if (pressed == false && btn.id !== "evaluate") {
+                pressed = true;
                 if (numberStream.length !== 0) {
                     operands.operand_x = +numberStream.join("");
                 }
             } 
-            else if (pressed) {
+            else if (pressed == true && btn.id !== "evaluate") {
                 if (numberStream.length !== 0) {
-                    operands.operand_y = +numberStream.join("");
                     operands.evaluation = operation(operands);
                     displayText.textContent = operands.evaluation;
                     operands.operand_x = operands.evaluation;
                 }
+            } 
+            else if (btn.id === "evaluate") {
+                if ("operand_y" in operands) {
+                    pressed = false;
+                    operands.evaluation = operation(operands);
+                    displayText.textContent = operands.evaluation;
+                    operands.operand_x = operands.evaluation;
+                    delete operands.operand_y;
+                }
             }
             numberStream = [];
             operands.operator = btn.id;
+            displayOperator.textContent = btn.innerHTML;
 
+            console.log(pressed);
             console.log(operands.operator);
             console.log(operands.operand_x);
             console.log(operands.operand_y);
@@ -41,7 +58,7 @@ keypad.forEach((btn) => {
             functionKeys.forEach((key) => {
                 key.disabled = true;
             });*/
-        }
+        } 
 
         else {
             console.log(btn.classList);
