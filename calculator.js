@@ -43,6 +43,8 @@ keypad.forEach((btn) => {
                     displayText.textContent = operands.evaluation;
                     operands.operand_x = operands.evaluation;
                     delete operands.operand_y;
+                } else if (numberStream.length !== 0) {
+                    operands.operand_x = +numberStream.join("");
                 }
             }
             numberStream = [];
@@ -105,5 +107,8 @@ function multiply(x,y) {
 }
 
 function divide(x,y) {
+    if (!y) {
+        return "bruh";
+    }
     return x / y;
 }
