@@ -1,4 +1,4 @@
-let numberStream = [];
+let numberStream = [0];
 let operands = {operand_x: 0,};
 let displayText = document.querySelector(".display-text");
 let displayOperator = document.querySelector(".display-operator");
@@ -6,7 +6,7 @@ displayText.textContent = 0;
 let pressed = false;
 
 let keypad = document.querySelectorAll(".key");
-//TODO: handle overflow. Implement proportion, negate, clear, delete.
+//TODO: handle overflow. Implement clear, delete.
 keypad.forEach((btn) => {
     btn.addEventListener("click", () => {
         if (btn.classList.contains("number")) {//everytime number is pressed
@@ -18,34 +18,37 @@ keypad.forEach((btn) => {
                 numberStream.shift();//prevents leading 0s
             }
             displayText.textContent = numberStream.join("");//displays number
-            if(pressed == true) {
+            if(pressed == true) { //assigns numberstream to y if operation in progress
                 operands.operand_y = +numberStream.join("");
             }
         }
-        else if (btn.id == "decimal") {
+        else if (btn.id == "decimal") { //whenever decimal is pressed
             if (numberStream.length === 0) {
-                numberStream.push(0);
+                numberStream.push(0); //puts a 0 before empty decimal
             }
             if (!numberStream.includes(btn.innerHTML)) {
-                numberStream.push(btn.innerHTML);
+                numberStream.push(btn.innerHTML); //puts decimal in number
                 displayText.textContent = numberStream.join("");
             } 
         }
         else if (btn.id == "negate") {
-            if (numberStream.length !== 0) {
-                if (!numberStream.includes("-")) {
-                    if (!+numberStream.join("")) {
-                        
-                    } else {
-                        numberStream.unshift("-")
-                    }
-                    if(pressed == true) {
-                        operands.operand_y = +numberStream.join("");
-                    }
-                    displayText.textContent = numberStream.join("");
+            if (!numberStream.includes("-")) {
+                let negative = +displayText.textContent * -1;
+                numberStream = negative.toString().split('');
+                if(pressed == true) {
+                    operands.operand_y = +numberStream.join("");
                 }
+                displayText.textContent = numberStream.join("");
             }
-        } 
+        }
+        else if (btn.id === "proportion") {
+            let proportion = +displayText.textContent / 100;
+            numberStream = proportion.toString().split('');
+            if(pressed == true) {
+                operands.operand_y = +numberStream.join("");
+            }
+            displayText.textContent = numberStream.join("");
+        }
         else if (btn.classList.contains("operation")) {
             console.log("flag in, " + pressed);
             if (pressed == false && btn.id !== "evaluate") {
@@ -58,8 +61,7 @@ keypad.forEach((btn) => {
                 if (numberStream.length !== 0) {
                     operation(operands);
                     displayText.textContent = operands.evaluation;
-                }
-                
+                }  
             } 
             else if (btn.id === "evaluate") {
                 pressed = false;
@@ -74,12 +76,9 @@ keypad.forEach((btn) => {
             }
             numberStream = [];
             operands.operator = btn.id;
-            displayOperator.textContent = btn.innerHTML;
-
-            console.log("flag out, "+pressed);
             console.log("operator, "+operands.operator);
-            console.log("x, "+operands.operand_x);
-            console.log("y, "+operands.operand_y);
+            displayOperator.textContent = btn.innerHTML;
+            console.log("flag out, "+pressed);
         } 
     });
 }) 
@@ -103,12 +102,15 @@ function operation(obj) {
             evaluation = obj.operand_x;
             console.log("No operation was performed.");
         }
+    console.log("x, "+obj.operand_x);
+    console.log("y, "+obj.operand_y);
     operands.evaluation = evaluation;
+    console.log("Evaluation, "+obj.operand_y);
     operands.operand_x = operands.evaluation;
     delete operands.operand_y;
 }
 
-function add(x,y) {return x + y;}
-function subtract(x,y) {return x - y;}
+function add(x,y) {return Number(x + y);}
+function subtract(x,y) {return Number(x - y);}
 function multiply(x,y) {return x * y;}
 function divide(x,y) {return !y ? "bruh" : x / y;}
