@@ -4,9 +4,11 @@ let displayText = document.querySelector(".display-text");
 let displayOperator = document.querySelector(".display-operator");
 displayText.textContent = 0;
 let pressed = false;
+const max = Number.MAX_SAFE_INTEGER;
+const min = -max;
 
 let keypad = document.querySelectorAll(".key");
-//TODO: handle overflow. Implement clear, delete.
+//TODO: Implement clear, delete.
 keypad.forEach((btn) => {
     btn.addEventListener("click", () => {
         if (btn.classList.contains("number")) {//everytime number is pressed
@@ -110,7 +112,14 @@ function operation(obj) {
     delete operands.operand_y;
 }
 
-function add(x,y) {return Number(x + y);}
-function subtract(x,y) {return Number(x - y);}
-function multiply(x,y) {return x * y;}
-function divide(x,y) {return !y ? "bruh" : x / y;}
+function add(x,y) {return handleOverflow(Number(x + y));}
+function subtract(x,y) {return handleOverflow(Number(x - y));}
+function multiply(x,y) {return handleOverflow(x * y);}
+function divide(x,y) {return handleOverflow(!y ? "bruh" : x / y);}
+function handleOverflow(result) {
+    if (result > max || result < min) {
+        return "OVERFLOW";
+    } else {
+        return result;
+    }
+}
