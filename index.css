@@ -17,7 +17,7 @@ body {
     padding: 12px;
     border-radius: 16px;
     gap: 8px;
-    background-color: navy;
+    background-color: gray;
 }
 
 .display {
@@ -26,7 +26,7 @@ body {
     text-align: end;
     flex-direction: column;
     color: black;
-    background-color: gray;
+    background-color: rgb(223, 223, 223);
     border-radius: 8px;
     width: 328px;
     height: 100px;
@@ -35,6 +35,7 @@ body {
 .display-text {
     flex: 0 0 auto;
     font-size: 50px;
+    font-family: 'Courier New', Courier, monospace;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -69,7 +70,7 @@ body {
 .key {
     text-align: center;
     color: black;
-    background-color: gray;
+    background-color: antiquewhite;
     width: 75px;
     height: 75px;
     border-radius: 8px;
@@ -79,4 +80,19 @@ body {
 .header,
 .footer {
     flex: 1 1 auto;
+}
+
+.operation,
+#proportion {
+    background-color: green;
+    color: white;
+}
+
+.operation#evaluate {
+    background-color: rgb(97, 97, 255);
+}
+
+#clear,
+#delete {
+    background-color: rgb(255, 78, 78);
 }

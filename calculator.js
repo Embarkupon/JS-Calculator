@@ -65,7 +65,7 @@ keypad.forEach((btn) => {
                 numberStream.pop();
                 displayText.textContent = numberStream.join("");
             }
-            if (numberStream.length === 0) {
+            if (numberStream.length === 0 || numberStream.join("") == "-") {
                 numberStream = [0];
                 displayText.textContent = numberStream.join("");
             }
