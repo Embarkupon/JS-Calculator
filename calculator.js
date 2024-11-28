@@ -46,13 +46,34 @@ keypad.forEach((btn) => {
         else if (btn.id === "proportion") {
             let proportion = +displayText.textContent / 100;
             numberStream = proportion.toString().split('');
-            if(pressed == true) {
+            if(pressed == true ) {
                 operands.operand_y = +numberStream.join("");
             }
             displayText.textContent = numberStream.join("");
         }
+        else if (btn.id == "clear") {
+            operands.operand_x = 0;
+            delete operands.operand_y;
+            delete operands.operator;
+            delete operands.evaluation;
+            numberStream = [0];
+            displayText.textContent = 0;
+            displayOperator.textContent = "";
+        }
+        else if (btn.id == "delete") {
+            if (numberStream.length !== 0) {
+                numberStream.shift();
+                displayText.textContent = numberStream.join("");
+            }
+            if (numberStream.length === 0 && operands.operand_x !== operands.evaluation) {
+                numberStream = [0];
+                displayText.textContent = numberStream.join("");
+            }
+            if(pressed == true ) {
+                operands.operand_y = +numberStream.join("");
+            }
+        }
         else if (btn.classList.contains("operation")) {
-            console.log("flag in, " + pressed);
             if (pressed == false && btn.id !== "evaluate") {
                 pressed = true;
                 if (numberStream.length !== 0) {
@@ -78,9 +99,7 @@ keypad.forEach((btn) => {
             }
             numberStream = [];
             operands.operator = btn.id;
-            console.log("operator, "+operands.operator);
             displayOperator.textContent = btn.innerHTML;
-            console.log("flag out, "+pressed);
         } 
     });
 }) 
@@ -104,10 +123,7 @@ function operation(obj) {
             evaluation = obj.operand_x;
             console.log("No operation was performed.");
         }
-    console.log("x, "+obj.operand_x);
-    console.log("y, "+obj.operand_y);
     operands.evaluation = evaluation;
-    console.log("Evaluation, "+obj.operand_y);
     operands.operand_x = operands.evaluation;
     delete operands.operand_y;
 }

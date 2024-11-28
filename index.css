@@ -33,8 +33,7 @@ body {
 }
 
 .display-text {
-    flex: 1;
-    margin-top: auto;
+    flex: 0 0 auto;
     font-size: 50px;
     white-space: nowrap;
     overflow: hidden;
@@ -42,7 +41,7 @@ body {
 }
 
 .display-operator {
-    flex: 0;
+    flex: 1;
     font-size: 34px;
 }
 
