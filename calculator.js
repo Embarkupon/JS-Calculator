@@ -62,10 +62,10 @@ keypad.forEach((btn) => {
         }
         else if (btn.id == "delete") {
             if (numberStream.length !== 0) {
-                numberStream.shift();
+                numberStream.pop();
                 displayText.textContent = numberStream.join("");
             }
-            if (numberStream.length === 0 && operands.operand_x !== operands.evaluation) {
+            if (numberStream.length === 0) {
                 numberStream = [0];
                 displayText.textContent = numberStream.join("");
             }
